@@ -12,6 +12,6 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Theme.of(context).colorScheme);
+    return Scaffold(backgroundColor: Theme.of(context).colorScheme.surface);
   }
 }
