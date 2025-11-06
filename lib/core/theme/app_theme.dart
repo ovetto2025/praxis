@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:praxis/assets/fonts/AppTypography.dart';
+import '../fonts/AppTypography.dart';
 
 class AppTheme {
   static const Color backgroundColor = Color(0xFFF7F5FF);
