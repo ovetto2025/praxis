@@ -14,7 +14,8 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: primaryColor,
       surface: backgroundColor,
-      secondary: secondaryButtonColor,
+      secondary: textColor,
+      secondaryContainer: secondaryButtonColor,
     ),
     textTheme: TextTheme(
       displayLarge: AppTypography.title,
