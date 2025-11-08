@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<AuthScreen> createState() {
-    return _AuthScreenState();
+  State<RegisterScreen> createState() {
+    return _RegisterScreenState();
   }
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: BorderSide(color: AppTheme.primaryColor, width: 1.4),
