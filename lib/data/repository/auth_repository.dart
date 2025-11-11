@@ -1,32 +1,43 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:praxis/data/models/user_model.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Stream<User?> get user => _firebaseAuth.authStateChanges();
-  Future<UserModel?> signUp(String email, String password) async {
+  Stream<User?> get user => _firebaseAuth.authStateChanges();
+
+  Future<UserModel?> signUp(
+    String email,
+    String password, {
+    String? displayName,
+  }) async {
     try {
       final UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(
             email: email.trim(),
             password: password.trim(),
           );
-      final User? firebaseUser = userCredential.user;
+      User? firebaseUser = userCredential.user;
       if (firebaseUser != null) {
+        if (displayName != null && displayName.trim().isNotEmpty) {
+          await firebaseUser.updateDisplayName(displayName.trim());
+          await firebaseUser.reload();
+          firebaseUser = _firebaseAuth.currentUser;
+        }
         return UserModel(
-          id: firebaseUser.uid,
+          id: firebaseUser!.uid,
           email: firebaseUser.email ?? '',
           displayName: firebaseUser.displayName ?? '',
         );
       }
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
     return null;
   }
 
-  Future<UserModel?> signIn(String name, String email, String password) async {
+  Future<UserModel?> signIn(String email, String password) async {
     try {
       final UserCredential cred = await _firebaseAuth
           .signInWithEmailAndPassword(
@@ -41,23 +52,15 @@ class AuthRepository {
         displayName: user.displayName ?? '',
       );
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
-      // Gestione/log dell\'errore
+      debugPrint(e.toString());
       return null;
     }
   }
-  // Future<void> signUp(String name, String email, String password) async {
-  //   await _firebaseAuth.createUserWithEmailAndPassword(
-  //     email: email,
-  //     password: password,
-  //   );
-  // }
 
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      // Log o gestione dell'errore
       rethrow;
     }
   }

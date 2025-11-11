@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:praxis/core/theme/app_theme.dart';
 import 'package:praxis/features/authentication/logic/auth_bloc.dart';
 import 'package:praxis/features/authentication/logic/auth_event.dart';
 import 'package:praxis/features/authentication/logic/auth_state.dart';
+import 'package:praxis/core/theme/app_theme.dart';
+import 'package:go_router/go_router.dart';
+import 'signup_screen.dart';
 
-import 'login_screen.dart';
-
-class SignupScreen extends StatefulWidget {
-  static const String routeName = '/signup';
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+  static const String routeName = '/login';
 
   @override
-  State<SignupScreen> createState() {
-    return _SignupScreenState();
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
   bool obscurePassword = true;
 
   final border = OutlineInputBorder(
@@ -30,24 +25,20 @@ class _SignupScreenState extends State<SignupScreen> {
     borderSide: BorderSide(color: AppTheme.primaryColor, width: 1.4),
   );
 
-  void _onSignUp() {
-    context.read<AuthBloc>().add(
-      AuthSignUpRequested(
-        email: emailController.text,
-        password: passwordController.text,
-        firstName: firstNameController.text,
-        lastName: lastNameController.text,
-      ),
-    );
-  }
-
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    firstNameController.dispose();
-    lastNameController.dispose();
     super.dispose();
+  }
+
+  void _onLogin() {
+    context.read<AuthBloc>().add(
+      AuthSignInRequested(
+        email: emailController.text,
+        password: passwordController.text,
+      ),
+    );
   }
 
   @override
@@ -66,61 +57,23 @@ class _SignupScreenState extends State<SignupScreen> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 24),
                   Center(
                     child: Text(
-                      'Registrazione',
+                      'Login',
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ),
                   const SizedBox(height: 40),
                   TextFormField(
-                    controller: firstNameController,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      hintText: 'Nome',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: border,
-                      enabledBorder: border,
-                      focusedBorder: border.copyWith(
-                        borderSide: border.borderSide.copyWith(width: 1.8),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: lastNameController,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      hintText: 'Cognome',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: border,
-                      enabledBorder: border,
-                      focusedBorder: border.copyWith(
-                        borderSide: border.borderSide.copyWith(width: 1.8),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: 'Inserisci la tua email',
+                      hintText: 'Email',
                       filled: true,
                       fillColor: Colors.white,
                       border: border,
@@ -128,7 +81,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       focusedBorder: border.copyWith(
                         borderSide: border.borderSide.copyWith(width: 1.8),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 14,
                       ),
@@ -139,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: passwordController,
                     obscureText: obscurePassword,
                     decoration: InputDecoration(
-                      hintText: 'Inserisci la tua password',
+                      hintText: 'Password',
                       filled: true,
                       fillColor: Colors.white,
                       border: border,
@@ -156,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onPressed: () =>
                             setState(() => obscurePassword = !obscurePassword),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 14,
                       ),
@@ -170,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       return SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: isLoading ? null : _onSignUp,
+                          onPressed: isLoading ? null : _onLogin,
                           child: isLoading
                               ? const SizedBox(
                                   width: 20,
@@ -179,16 +132,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : const Text('Registrati'),
+                              : const Text('Accedi'),
                         ),
                       );
                     },
                   ),
                   TextButton(
-                    onPressed: () => context.go(LoginScreen.routeName),
-                    child: const Text('Hai già un account? Accedi'),
+                    onPressed: () => context.go(SignupScreen.routeName),
+                    child: const Text('Non hai un account? Registrati'),
                   ),
-                  const SizedBox(height: 16),
                 ],
               ),
             ),

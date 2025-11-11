@@ -1,6 +1,5 @@
 part of 'authentication_bloc.dart';
 
-@immutable
 sealed class AuthenticationEvent {
   const AuthenticationEvent();
   List<Object> get props => [];
@@ -12,7 +11,7 @@ class SignUpUser extends AuthenticationEvent {
 
   const SignUpUser(this.email, this.password);
   @override
-  List<Object> get props => [this.email, this.password];
+  List<Object> get props => [email, password];
 }
 
 class SignOut extends AuthenticationEvent {}

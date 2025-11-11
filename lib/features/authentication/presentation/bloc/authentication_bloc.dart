@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:praxis/data/repository/auth_repository.dart';
 
 import '../../../../data/models/user_model.dart';
@@ -25,7 +25,7 @@ class AuthenticationBloc
           emit(const AuthenticationFailureState('create user failed'));
         }
       } catch (e) {
-        print(e.toString());
+        debugPrint(e.toString());
       }
       emit(AuthenticationLoadingState(isLoading: false));
     });
@@ -35,8 +35,8 @@ class AuthenticationBloc
       try {
         authRepository.signOut();
       } catch (e) {
-        print('error');
-        print(e.toString());
+        debugPrint('error');
+        debugPrint(e.toString());
       }
       emit(AuthenticationLoadingState(isLoading: false));
     });
