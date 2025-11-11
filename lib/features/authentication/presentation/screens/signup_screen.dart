@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  static String id = 'login_screen';
+  const SignupScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() {
-    return _RegisterScreenState();
+  State<SignupScreen> createState() {
+    return _SignupScreenState();
   }
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   final border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: BorderSide(color: AppTheme.primaryColor, width: 1.4),
   );
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
-                    hintText: 'Nome',
+                    hintText: 'Inserisci la tua email',
                     filled: true,
                     fillColor: Colors.white,
                     border: border,
@@ -53,8 +65,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
+                  controller: passwordController,
                   decoration: InputDecoration(
-                    hintText: 'Cognome',
+                    hintText: 'Inserisci la tua password',
                     filled: true,
                     fillColor: Colors.white,
                     border: border,
@@ -62,12 +75,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     focusedBorder: border.copyWith(
                       borderSide: border.borderSide.copyWith(width: 1.8),
                     ),
+
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
                     ),
                   ),
+                  obscureText: false,
                 ),
+
                 const SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(

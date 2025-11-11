@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:praxis/features/authentication/presentation/screens/auth_screen.dart';
 import 'firebase_options.dart';
-import 'features/authentication/presentation/screens/registration_page.dart';
+import 'features/authentication/presentation/screens/signup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ class Praxis extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Praxis',
       theme: AppTheme.lightTheme,
-      home: RegisterScreen(),
+      home: AuthenticationFlowScreen(),
     );
   }
 }
