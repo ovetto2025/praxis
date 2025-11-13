@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:praxis/assets/fonts/AppTypography.dart';
+import '../fonts/app_typography.dart';
 
 class AppTheme {
   static const Color backgroundColor = Color(0xFFF7F5FF);
@@ -14,7 +14,8 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: primaryColor,
       surface: backgroundColor,
-      secondary: secondaryButtonColor,
+      secondary: textColor,
+      secondaryContainer: secondaryButtonColor,
     ),
     textTheme: TextTheme(
       displayLarge: AppTypography.title,
