@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 import 'package:praxis/data/repository/auth_repository.dart';
-import 'package:praxis/features/authentication/logic/auth_bloc.dart';
+import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:praxis/core/router/app_router.dart';
 import 'firebase_options.dart';
 

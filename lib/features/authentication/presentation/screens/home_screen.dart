@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:praxis/features/authentication/logic/auth_bloc.dart';
-import 'package:praxis/features/authentication/logic/auth_event.dart';
+import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:praxis/features/authentication/presentation/bloc/auth_event.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
