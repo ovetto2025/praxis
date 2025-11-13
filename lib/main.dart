@@ -1,22 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:praxis/core/theme/app_theme.dart';
-import 'package:praxis/presentation/screens/onboarding_screen.dart';
+import 'package:praxis/data/repository/auth_repository.dart';
+import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:praxis/core/router/app_router.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const Praxis());
 }
 
 class Praxis extends StatelessWidget {
   const Praxis({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Praxis',
-      theme: AppTheme.lightTheme,
-      home: const OnboardingScreen(),
+    return RepositoryProvider(
+      create: (_) => AuthRepository(),
+      child: Builder(
+        builder: (context) {
+          return BlocProvider(
+            create: (_) =>
+                AuthBloc(authRepository: context.read<AuthRepository>()),
+            child: Builder(
+              builder: (context) {
+                final appRouter = AppRouter(context).router;
+                return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Praxis',
+                  theme: AppTheme.lightTheme,
+                  routerConfig: appRouter,
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
