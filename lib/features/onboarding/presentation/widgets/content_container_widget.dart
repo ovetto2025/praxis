@@ -6,10 +6,12 @@ class ContentContainerWidget extends StatelessWidget {
   final String title;
   final String description;
 
-  /// 🔥 NUOVI PARAMETRI AGGIUNTI
   final int currentIndex;
   final int totalPages;
   final VoidCallback onNext;
+
+  /// 🔥 NUOVA CALLBACK
+  final VoidCallback onSkip;
 
   const ContentContainerWidget({
     super.key,
@@ -18,6 +20,7 @@ class ContentContainerWidget extends StatelessWidget {
     required this.currentIndex,
     required this.totalPages,
     required this.onNext,
+    required this.onSkip,
   });
 
   @override
@@ -57,7 +60,7 @@ class ContentContainerWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // ---------- TITOLO ROSSO ----------
+                  // ---------- TITOLO ----------
                   Text(
                     title,
                     textAlign: TextAlign.center,
@@ -77,11 +80,15 @@ class ContentContainerWidget extends StatelessWidget {
 
                   const Spacer(),
 
-                  // ---------- FOOTER: SALTA - INDICATORI - FRECCIA ----------
+                  // ---------- FOOTER ----------
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Salta"),
+                      // 🔥 AGGIORNATO
+                      GestureDetector(
+                        onTap: onSkip,
+                        child: const Text("Salta"),
+                      ),
 
                       OnboardingPageIndicators(
                         currentIndex: currentIndex,

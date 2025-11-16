@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// ONBOARDING
 import 'package:praxis/features/onboarding/presentation/screens/onboarding_screen.dart';
+
+// AUTH
 import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:praxis/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:praxis/features/authentication/presentation/screens/home_screen.dart';
@@ -12,9 +16,13 @@ import 'package:praxis/features/authentication/presentation/screens/signup_scree
 class AppRouter {
   final GoRouter router;
 
-  AppRouter(BuildContext context)
+  // 🔥 aggiungiamo il parametro hasSeenOnboarding
+  AppRouter(BuildContext context, bool hasSeenOnboarding)
       : router = GoRouter(
-    initialLocation: OnboardingScreen.routeName,
+    // ⭐ impostiamo l'iniziale in base al valore salvato
+    initialLocation: hasSeenOnboarding
+        ? LoginScreen.routeName
+        : OnboardingScreen.routeName,
 
     refreshListenable: GoRouterRefreshStream(
       context.read<AuthBloc>().stream,
@@ -23,18 +31,24 @@ class AppRouter {
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isAuth = authState.status == AuthStatus.authenticated;
+
       final loggingIn = state.matchedLocation == LoginScreen.routeName;
       final signingUp = state.matchedLocation == SignupScreen.routeName;
 
-      if (!isAuth && state.matchedLocation == HomeScreen.routeName) {
+      // ❗ NON modifichiamo nulla del comportamento della tua squadra.
+
+      // Se NON autenticato e prova ad andare in Home → lo mandiamo al login
+      if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
         return LoginScreen.routeName;
       }
 
+      // Se autenticato → niente login/signup
       if (isAuth && (loggingIn || signingUp)) {
         return HomeScreen.routeName;
       }
 
-      return null; // nessun redirect da onboarding
+      // Nessun redirect extra
+      return null;
     },
 
     routes: [
