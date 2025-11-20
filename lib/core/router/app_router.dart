@@ -13,13 +13,14 @@ import 'package:praxis/features/authentication/presentation/screens/home_screen.
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
 
+// PLACES
+import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
+
 class AppRouter {
   final GoRouter router;
 
-  // 🔥 aggiungiamo il parametro hasSeenOnboarding
   AppRouter(BuildContext context, bool hasSeenOnboarding)
       : router = GoRouter(
-    // ⭐ impostiamo l'iniziale in base al valore salvato
     initialLocation: hasSeenOnboarding
         ? LoginScreen.routeName
         : OnboardingScreen.routeName,
@@ -35,19 +36,14 @@ class AppRouter {
       final loggingIn = state.matchedLocation == LoginScreen.routeName;
       final signingUp = state.matchedLocation == SignupScreen.routeName;
 
-      // ❗ NON modifichiamo nulla del comportamento della tua squadra.
-
-      // Se NON autenticato e prova ad andare in Home → lo mandiamo al login
       if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
         return LoginScreen.routeName;
       }
 
-      // Se autenticato → niente login/signup
       if (isAuth && (loggingIn || signingUp)) {
         return HomeScreen.routeName;
       }
 
-      // Nessun redirect extra
       return null;
     },
 
@@ -67,6 +63,15 @@ class AppRouter {
       GoRoute(
         path: HomeScreen.routeName,
         builder: (context, state) => const HomeScreen(),
+      ),
+
+      // 🆕 ROUTE DETTAGLIO LUOGO
+      GoRoute(
+        path: PlaceDetailScreen.routeName,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return PlaceDetailScreen(placeId: id);
+        },
       ),
     ],
   );
