@@ -8,6 +8,12 @@ import 'package:praxis/features/places/presentation/widgets/place_images_carouse
 import 'package:praxis/features/places/presentation/widgets/place_description_box.dart';
 import 'package:praxis/shared/widgets/main_red_button.dart';
 
+// Back button tuo widget
+import 'package:praxis/features/onboarding/presentation/widgets/circular_arrow_button_widget.dart';
+
+// Typography ufficiale
+import 'package:praxis/core/fonts/app_typography.dart';
+
 class PlaceDetailScreen extends StatelessWidget {
   static const String routeName = '/place/:id';
 
@@ -24,7 +30,6 @@ class PlaceDetailScreen extends StatelessWidget {
     placesMock.firstWhere((p) => p.id == placeId);
 
     final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -34,54 +39,47 @@ class PlaceDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // BACK BUTTON
-              InkWell(
-                onTap: () => context.pop(),
-                borderRadius: BorderRadius.circular(24),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colors.primary, width: 2),
-                    borderRadius: BorderRadius.circular(24),
+
+              // ROW CON BACK BUTTON + TITOLO
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularArrowButton(
+                    reversed: true,
+                    onPressed: () => context.pop(),
                   ),
-                  child: Icon(
-                    Icons.arrow_back_rounded,
-                    color: colors.primary,
-                    size: 22,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      place.title,
+                      style: AppTypography.title.copyWith(
+                        color: Colors.black,
+                        fontSize: 32,   // manteniamo la dimensione esatta del Figma
+                      ),
+                      maxLines: 2,
+                    ),
                   ),
-                ),
+                ],
               ),
 
               const SizedBox(height: 16),
 
-              // TITLE
-              Text(
-                place.title,
-                style: textTheme.displayLarge?.copyWith(
-                  fontSize: 32,
-                  color: colors.primary,
-                  height: 1.1,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // IMAGES CAROUSEL
+              // IMMAGINI
               PlaceImagesCarousel(images: place.images),
 
               const SizedBox(height: 8),
 
-              // DESCRIPTION BOX
+              // DESCRIZIONE
               PlaceDescriptionBox(text: place.description),
 
               const SizedBox(height: 8),
 
-              // BUTTON
+              // BUTTON "Indicazioni"
               Center(
                 child: MainRedButton(
                   label: "Indicazioni",
                   onPressed: () {
-                    // TODO: Collegamento alla mappa
+                    // TODO
                   },
                 ),
               ),

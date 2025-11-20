@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:praxis/core/fonts/app_typography.dart';
 
 class PlaceDescriptionBox extends StatelessWidget {
   final String text;
@@ -11,7 +12,6 @@ class PlaceDescriptionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     return Container(
       width: double.infinity,
@@ -22,7 +22,7 @@ class PlaceDescriptionBox extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: textTheme.bodyMedium?.copyWith(
+        style: AppTypography.body.copyWith(
           fontSize: 14,
           height: 1.45,
         ),

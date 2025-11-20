@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:praxis/core/fonts/app_typography.dart';
 
 class MainRedButton extends StatelessWidget {
   final String label;
@@ -24,10 +25,8 @@ class MainRedButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          textStyle: const TextStyle(
+          textStyle: AppTypography.bodyBold.copyWith(
             fontSize: 16,
-            fontWeight: FontWeight.w700,
-            fontFamily: "Montserrat",
           ),
         ),
         onPressed: onPressed,
