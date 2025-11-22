@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:praxis/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
 import 'package:praxis/features/home/presentation/screens/audio_screen.dart';
@@ -19,18 +20,19 @@ class AppRouter {
           context.read<AuthBloc>().stream,
         ),
         redirect: (context, state) {
-          // Disabilitato il redirect per l'autenticazione
-          // final authState = context.read<AuthBloc>().state;
-          // final isAuth = authState.status == AuthStatus.authenticated;
-          // final loggingIn = state.matchedLocation == LoginScreen.routeName;
-          // final signingUp = state.matchedLocation == SignupScreen.routeName;
+          final authState = context.read<AuthBloc>().state;
+          final isAuth = authState.status == AuthStatus.authenticated;
+          final loggingIn = state.matchedLocation == LoginScreen.routeName;
+          final signingUp = state.matchedLocation == SignupScreen.routeName;
 
-          // if (!isAuth && (state.matchedLocation == '/home')) {
-          //   return LoginScreen.routeName;
-          // }
-          // if (isAuth && (loggingIn || signingUp)) {
-          //   return '/home';
-          // }
+          if (!isAuth &&
+              (state.matchedLocation == '/home' ||
+                  state.matchedLocation == '/audio')) {
+            return LoginScreen.routeName;
+          }
+          if (isAuth && (loggingIn || signingUp)) {
+            return '/home';
+          }
           return null;
         },
         routes: [
