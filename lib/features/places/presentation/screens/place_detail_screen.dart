@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:praxis/features/places/data/places_mock.dart';
@@ -6,10 +7,8 @@ import 'package:praxis/features/places/models/place_model.dart';
 // Widgets modulari
 import 'package:praxis/features/places/presentation/widgets/place_images_carousel.dart';
 import 'package:praxis/features/places/presentation/widgets/place_description_box.dart';
+import 'package:praxis/shared/widgets/circular_arrow_button_widget.dart';
 import 'package:praxis/shared/widgets/main_red_button.dart';
-
-// Back button tuo widget
-import 'package:praxis/features/onboarding/presentation/widgets/circular_arrow_button_widget.dart';
 
 // Typography ufficiale
 import 'package:praxis/core/fonts/app_typography.dart';

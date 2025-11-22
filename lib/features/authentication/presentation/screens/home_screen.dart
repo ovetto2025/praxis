@@ -42,7 +42,6 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // 🌍 TEST BUTTONS PER I 4 LUOGHI
                 ElevatedButton(
                   onPressed: () => context.push('/place/piazza_ottinetti'),
                   child: const Text('Vai a Piazza Ottinetti'),
