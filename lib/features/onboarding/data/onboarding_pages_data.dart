@@ -1,4 +1,4 @@
-import 'models/onboarding_page_model.dart';
+import 'onboarding_page_model.dart';
 
 const List<OnboardingPageModel> onboardingPages = [
   OnboardingPageModel(

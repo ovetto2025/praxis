@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praxis/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 // AUTH
-import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:praxis/features/authentication/presentation/bloc/auth_state.dart';
+import 'package:praxis/features/authentication/logic/bloc/auth_bloc.dart';
+import 'package:praxis/features/authentication/logic/bloc/auth_state.dart';
 import 'package:praxis/features/authentication/presentation/screens/home_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';

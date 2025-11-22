@@ -33,12 +33,9 @@ class CircularArrowButton extends StatelessWidget {
 
         // ✅ STEP -> stile definito correttamente
         decoration: BoxDecoration(
-          color: colors.primary.withOpacity(0.5), // ✅ sfondo rosso 50%
-          borderRadius: BorderRadius.circular(20), // ✅ arrotondamento 20
-          border: Border.all(
-            color: colors.primary, // ✅ stroke rosso pieno
-            width: 2,
-          ),
+          color: colors.primary.withValues(alpha: 0.5), // rosso 50%
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colors.primary, width: 2),
         ),
 
         alignment: Alignment.center,

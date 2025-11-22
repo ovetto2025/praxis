@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:praxis/data/onboarding_pages_data.dart';
+import 'package:praxis/features/onboarding/data/onboarding_pages_data.dart';
 import 'package:praxis/features/onboarding/presentation/widgets/content_container_widget.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 

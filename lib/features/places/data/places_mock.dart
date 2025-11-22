@@ -11,9 +11,8 @@ final List<PlaceModel> placesMock = [
     description:
     "Nel cuore pulsante di Ivrea, c’è uno spazio che racconta una storia antica, segnata dall’epidemia di peste del 1400: è Piazza Ottinetti, anche conosciuta come Piazza di Città o Piazza della Morte Nera. Quest’ultimo è un nome che evoca grande dolore, ma che con il passare dei secoli la piazza è riuscita a diventare un simbolo di rinascita. Infatti, oggi è uno dei centri vitali della città piemontese, un luogo dove passato e presente si intrecciano fortemente.\n\nDurante il Carnevale di Ivrea, la piazza si trasforma in un vero e proprio campo di battaglia, in cui le arance volano in una tradizione che rimanda alla lotta contro i tiranni medievali. Ma non è solo a Carnevale che la piazza vive, dal momento che ogni settimana questa ospita mercati, concerti, e fiere, diventando così un punto di incontro per residenti e turisti.\n\nPiazza Ottinetti è oggi un luogo di festa e cultura, dove il folklore e la memoria del passato si mescolano con la vitalità del presente, andando a creare un’atmosfera unica che racconta di una città che è stata in grado di rinascere e prosperare.",
     images: [
-      "assets/places/piazza_ottinetti_1.png",
-      "assets/places/piazza_ottinetti_2.png",
-      "assets/places/piazza_ottinetti_3.png",
+      "assets/images/places/piazza_ottinetti/p_o_01.jpg",
+      "assets/images/places/piazza_ottinetti/p_o_02.jpg",
     ],
   ),
 
