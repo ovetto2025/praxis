@@ -26,7 +26,6 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
       builder: (context, mapState) {
         return Stack(
           children: [
-            /// 🌍 MAPPA
             GoogleMap(
               initialCameraPosition: const CameraPosition(
                 target: LatLng(45.4668, 9.1905),
@@ -37,7 +36,44 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
               zoomControlsEnabled: false,
             ),
 
-            /// 🔍 Barra di ricerca + Icona profilo
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        height: 45,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.red),
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.search),
+                            SizedBox(width: 10),
+                            Text("Cerca qui"),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.red),
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
+                      child: const Icon(Icons.person),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         );
       },

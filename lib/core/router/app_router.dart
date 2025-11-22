@@ -7,7 +7,7 @@ import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart'
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
 import 'package:praxis/features/home/presentation/screens/audio_screen.dart';
-import 'package:praxis/features/home/presentation/screens/home_screen.dart';
+import 'package:praxis/features/home/presentation/screens/map_screen.dart';
 
 class AppRouter {
   final GoRouter router;
