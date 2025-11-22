@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:praxis/features/onboarding/presentation/widgets/oboarding_page_indicators.dart';
-import 'circular_arrow_button_widget.dart';
+import 'package:praxis/shared/widgets/circular_arrow_button_widget.dart';
 
 class ContentContainerWidget extends StatelessWidget {
   final String title;
