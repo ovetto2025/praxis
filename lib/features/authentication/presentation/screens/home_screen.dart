@@ -44,28 +44,28 @@ class HomeScreen extends StatelessWidget {
 
                 // 🌍 TEST BUTTONS PER I 4 LUOGHI
                 ElevatedButton(
-                  onPressed: () => context.go('/place/piazza_ottinetti'),
+                  onPressed: () => context.push('/place/piazza_ottinetti'),
                   child: const Text('Vai a Piazza Ottinetti'),
                 ),
 
                 const SizedBox(height: 12),
 
                 ElevatedButton(
-                  onPressed: () => context.go('/place/piazza_santa_marta'),
+                  onPressed: () => context.push('/place/piazza_santa_marta'),
                   child: const Text('Vai a Piazza Santa Marta'),
                 ),
 
                 const SizedBox(height: 12),
 
                 ElevatedButton(
-                  onPressed: () => context.go('/place/teatro_giacosa'),
+                  onPressed: () => context.push('/place/teatro_giacosa'),
                   child: const Text('Vai al Teatro Giacosa'),
                 ),
 
                 const SizedBox(height: 12),
 
                 ElevatedButton(
-                  onPressed: () => context.go('/place/museo_garda'),
+                  onPressed: () => context.push('/place/museo_garda'),
                   child: const Text('Vai al Museo Garda'),
                 ),
               ],
