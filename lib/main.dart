@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 import 'package:praxis/data/repository/auth_repository.dart';
 import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:praxis/features/home/presentation/bloc/map/map_bloc.dart';
+import 'package:praxis/features/home/presentation/bloc/ui/ui_bloc.dart';
 import 'package:praxis/core/router/app_router.dart';
 import 'firebase_options.dart';
 
@@ -22,9 +24,15 @@ class Praxis extends StatelessWidget {
       create: (_) => AuthRepository(),
       child: Builder(
         builder: (context) {
-          return BlocProvider(
-            create: (_) =>
-                AuthBloc(authRepository: context.read<AuthRepository>()),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) =>
+                    AuthBloc(authRepository: context.read<AuthRepository>()),
+              ),
+              BlocProvider(create: (_) => MapBloc()),
+              BlocProvider(create: (_) => UiBloc()),
+            ],
             child: Builder(
               builder: (context) {
                 final appRouter = AppRouter(context).router;

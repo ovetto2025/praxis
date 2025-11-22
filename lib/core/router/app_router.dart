@@ -4,32 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:praxis/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:praxis/features/authentication/presentation/bloc/auth_state.dart';
-import 'package:praxis/features/authentication/presentation/screens/home_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
+import 'package:praxis/features/home/presentation/screens/audio_screen.dart';
+import 'package:praxis/features/home/presentation/screens/home_screen.dart';
 
 class AppRouter {
   final GoRouter router;
 
   AppRouter(BuildContext context)
     : router = GoRouter(
-        initialLocation: '/signup',
+        initialLocation: '/home',
         refreshListenable: GoRouterRefreshStream(
           context.read<AuthBloc>().stream,
         ),
         redirect: (context, state) {
-          final authState = context.read<AuthBloc>().state;
-          final isAuth = authState.status == AuthStatus.authenticated;
-          final loggingIn = state.matchedLocation == LoginScreen.routeName;
-          final signingUp = state.matchedLocation == SignupScreen.routeName;
+          // Disabilitato il redirect per l'autenticazione
+          // final authState = context.read<AuthBloc>().state;
+          // final isAuth = authState.status == AuthStatus.authenticated;
+          // final loggingIn = state.matchedLocation == LoginScreen.routeName;
+          // final signingUp = state.matchedLocation == SignupScreen.routeName;
 
-          if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
-            return LoginScreen.routeName;
-          }
-          if (isAuth && (loggingIn || signingUp)) {
-            return HomeScreen.routeName;
-          }
+          // if (!isAuth && (state.matchedLocation == '/home')) {
+          //   return LoginScreen.routeName;
+          // }
+          // if (isAuth && (loggingIn || signingUp)) {
+          //   return '/home';
+          // }
           return null;
         },
         routes: [
@@ -42,8 +43,12 @@ class AppRouter {
             builder: (context, state) => const SignupScreen(),
           ),
           GoRoute(
-            path: HomeScreen.routeName,
+            path: '/home',
             builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/audio',
+            builder: (context, state) => const AudioScreen(),
           ),
         ],
       );
