@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "323555468101",
+    "firebase_url": "https://praxis-auth-db-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "praxis-auth-db",
+    "storage_bucket": "praxis-auth-db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323555468101:android:b5ce6cbe7f169b7ffa942c",
+        "android_client_info": {
+          "package_name": "com.example.praxis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAecVW_SfM4TH6wz6sTdYpEnTy2n8ZpjOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

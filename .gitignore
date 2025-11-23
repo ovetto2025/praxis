@@ -59,6 +59,8 @@ ios/.symlinks/
 ios/Flutter/.last_build_id
 ios/Flutter/ephemeral/
 ios/Flutter/Flutter.podspec
+ios/Podfile.lock
+macos/Podfile.lock
 
 # macOS / Windows / Linux Flutter
 macos/Flutter/ephemeral/

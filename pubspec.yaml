@@ -2,7 +2,7 @@ name: praxis
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -35,6 +35,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_fonts: ^6.3.2
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  shared_preferences: ^2.2.2
+  bloc: ^9.1.0
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.0
+  go_router: ^17.0.0
+  carousel_slider: 5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -45,16 +53,22 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - assets/images/places/piazza_ottinetti/p_o_01.jpg
+    - assets/images/places/piazza_ottinetti/p_o_02.jpg
+    - assets/images/onboarding/olivetti.png
+    - assets/images/Carousel_images/Percorso_Completo.jpg
+    - assets/images/Carousel_images/Percorso_Culturale.png
+    - assets/images/Carousel_images/Percorso_Famiglia.png
+    - assets/images/Carousel_images/Percorso_Sport.png
