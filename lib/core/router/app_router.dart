@@ -12,10 +12,12 @@ import 'package:praxis/features/authentication/logic/bloc/auth_state.dart';
 import 'package:praxis/features/authentication/presentation/screens/home_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
-import 'package:praxis/presentation/screens/carousel_path.dart';
 
 // PLACES
 import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
+
+// CAROUSEL
+import 'package:praxis/features/carousel/presentation/screens/carousel_path.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -64,6 +66,10 @@ class AppRouter {
           GoRoute(
             path: HomeScreen.routeName,
             builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: CarouselPath.routeName,
+            builder: (context, state) => const CarouselPath(),
           ),
 
           // 🆕 ROUTE DETTAGLIO LUOGO
