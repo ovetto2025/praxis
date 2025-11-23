@@ -11,8 +11,9 @@ import '../widgets/map_screen_widget.dart';
 import '../widgets/place_sheet.dart';
 import '../widgets/route_sheet.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ExploreScreen extends StatelessWidget {
+  static const String routeName = '/explore';
+  const ExploreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +25,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            /// 🌍 MAPPA E CONTROLLI BASE
             const MapScreenWidget(),
-
-            /// 🔘 Pulsanti Percorsi / Luoghi
             Positioned(
               top: 110,
               left: 20,
@@ -46,9 +44,8 @@ class HomeScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
-                        onPressed: () {
-                          context.read<UiBloc>().add(ShowRoutesSheet());
-                        },
+                        onPressed: () =>
+                            context.read<UiBloc>().add(ShowRoutesSheet()),
                         child: Text(
                           "Percorsi",
                           style: TextStyle(
@@ -67,9 +64,8 @@ class HomeScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
-                        onPressed: () {
-                          context.read<UiBloc>().add(ShowPlacesSheet());
-                        },
+                        onPressed: () =>
+                            context.read<UiBloc>().add(ShowPlacesSheet()),
                         child: Text(
                           "Elenco luoghi",
                           style: TextStyle(
@@ -80,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       FloatingActionButton(
-                        heroTag: "audioBtn",
+                        heroTag: "audioBtnExplore",
                         mini: true,
                         onPressed: () => context.push('/audio'),
                         child: const Icon(Icons.play_arrow),

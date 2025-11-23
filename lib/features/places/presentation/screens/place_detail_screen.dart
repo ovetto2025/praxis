@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:praxis/features/places/data/places_mock.dart';
 import 'package:praxis/features/places/models/place_model.dart';
+import 'package:praxis/features/home/presentation/screens/explore_screen.dart';
 
 // Widgets modulari
 import 'package:praxis/features/places/presentation/widgets/place_images_carousel.dart';
@@ -18,15 +18,11 @@ class PlaceDetailScreen extends StatelessWidget {
 
   final String placeId;
 
-  const PlaceDetailScreen({
-    super.key,
-    required this.placeId,
-  });
+  const PlaceDetailScreen({super.key, required this.placeId});
 
   @override
   Widget build(BuildContext context) {
-    final PlaceModel place =
-    placesMock.firstWhere((p) => p.id == placeId);
+    final PlaceModel place = placesMock.firstWhere((p) => p.id == placeId);
 
     final colors = Theme.of(context).colorScheme;
 
@@ -38,7 +34,6 @@ class PlaceDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // ROW CON BACK BUTTON + TITOLO
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +48,8 @@ class PlaceDetailScreen extends StatelessWidget {
                       place.title,
                       style: AppTypography.title.copyWith(
                         color: Colors.black,
-                        fontSize: 32,   // manteniamo la dimensione esatta del Figma
+                        fontSize:
+                            32, // manteniamo la dimensione esatta del Figma
                       ),
                       maxLines: 2,
                     ),
@@ -78,7 +74,9 @@ class PlaceDetailScreen extends StatelessWidget {
                 child: MainRedButton(
                   label: "Indicazioni",
                   onPressed: () {
-                    // TODO
+                    context.go(
+                      '${ExploreScreen.routeName}?placeId=${place.id}',
+                    );
                   },
                 ),
               ),

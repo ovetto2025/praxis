@@ -16,73 +16,97 @@ import 'package:praxis/features/authentication/presentation/screens/signup_scree
 // PLACES
 import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
 
+// HOME
+import 'package:praxis/features/home/presentation/bloc/map/map_bloc.dart';
+import 'package:praxis/features/home/presentation/bloc/map/map_event.dart';
+import 'package:praxis/features/home/presentation/screens/explore_screen.dart';
+
+// AUDIO
+import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
+
 class AppRouter {
   final GoRouter router;
 
   AppRouter(BuildContext context, bool hasSeenOnboarding)
-      : router = GoRouter(
-    initialLocation: hasSeenOnboarding
-        ? LoginScreen.routeName
-        : OnboardingScreen.routeName,
+    : router = GoRouter(
+        initialLocation: hasSeenOnboarding
+            ? LoginScreen.routeName
+            : OnboardingScreen.routeName,
 
-    refreshListenable: GoRouterRefreshStream(
-      context.read<AuthBloc>().stream,
-    ),
+        refreshListenable: GoRouterRefreshStream(
+          context.read<AuthBloc>().stream,
+        ),
 
-    redirect: (context, state) {
-      final authState = context.read<AuthBloc>().state;
-      final isAuth = authState.status == AuthStatus.authenticated;
+        redirect: (context, state) {
+          final authState = context.read<AuthBloc>().state;
+          final isAuth = authState.status == AuthStatus.authenticated;
 
-      final loggingIn = state.matchedLocation == LoginScreen.routeName;
-      final signingUp = state.matchedLocation == SignupScreen.routeName;
+          final loggingIn = state.matchedLocation == LoginScreen.routeName;
+          final signingUp = state.matchedLocation == SignupScreen.routeName;
 
-      if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
-        return LoginScreen.routeName;
-      }
+          if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
+            return LoginScreen.routeName;
+          }
 
-      if (isAuth && (loggingIn || signingUp)) {
-        return HomeScreen.routeName;
-      }
+          if (isAuth && (loggingIn || signingUp)) {
+            return HomeScreen.routeName;
+          }
 
-      return null;
-    },
-
-    routes: [
-      GoRoute(
-        path: OnboardingScreen.routeName,
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: LoginScreen.routeName,
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: SignupScreen.routeName,
-        builder: (context, state) => const SignupScreen(),
-      ),
-      GoRoute(
-        path: HomeScreen.routeName,
-        builder: (context, state) => const HomeScreen(),
-      ),
-
-      // 🆕 ROUTE DETTAGLIO LUOGO
-      GoRoute(
-        path: PlaceDetailScreen.routeName,
-        builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return PlaceDetailScreen(placeId: id);
+          return null;
         },
-      ),
-    ],
-  );
+
+        routes: [
+          GoRoute(
+            path: OnboardingScreen.routeName,
+            builder: (context, state) => const OnboardingScreen(),
+          ),
+          GoRoute(
+            path: LoginScreen.routeName,
+            builder: (context, state) => const LoginScreen(),
+          ),
+          GoRoute(
+            path: SignupScreen.routeName,
+            builder: (context, state) => const SignupScreen(),
+          ),
+          GoRoute(
+            path: HomeScreen.routeName,
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: ExploreScreen.routeName,
+            builder: (context, state) {
+              final placeId = state.uri.queryParameters['placeId'];
+              if (placeId != null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (context.mounted) {
+                    context.read<MapBloc>().add(FocusOnPlace(placeId));
+                  }
+                });
+              }
+              return const ExploreScreen();
+            },
+          ),
+
+          // 🆕 ROUTE DETTAGLIO LUOGO
+          GoRoute(
+            path: PlaceDetailScreen.routeName,
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return PlaceDetailScreen(placeId: id);
+            },
+          ),
+          GoRoute(
+            path: AudioScreen.routeName,
+            builder: (context, state) => const AudioScreen(),
+          ),
+        ],
+      );
 }
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListener = () => notifyListeners();
-    _subscription = stream.asBroadcastStream().listen(
-          (_) => notifyListener(),
-    );
+    _subscription = stream.asBroadcastStream().listen((_) => notifyListener());
   }
 
   late final VoidCallback notifyListener;

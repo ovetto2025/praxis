@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/ui/ui_bloc.dart';
 import '../bloc/ui/ui_event.dart';
+import 'package:praxis/features/routes/data/routes_mock.dart';
+import 'package:praxis/features/places/data/places_mock.dart';
 
 class RouteSheet extends StatelessWidget {
   const RouteSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // recuperiamo il percorso culturale (primo mock)
+    final route = routesMock.first;
+    final places = [
+      for (final id in route.placeIds)
+        placesMock.firstWhere(
+          (p) => p.id == id,
+          orElse: () => placesMock.first,
+        ),
+    ];
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: (notification) {
         if (notification.extent <= 0.16) {
@@ -40,42 +51,53 @@ class RouteSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   "Percorsi",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 150,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: [imageCard(), imageCard(), imageCard()],
+                    children: [
+                      for (final place in places)
+                        _imageCard(
+                          place.images.isNotEmpty ? place.images.first : null,
+                          place.title,
+                        ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
                 Container(
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Percorso Culturale",
-                        style: TextStyle(
+                        route.title,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
-                        "Luoghi della Grande Invasione",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        route.subtitle,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 10),
-                      Text("Testo descrizione percorso..."),
+                      const SizedBox(height: 10),
+                      Text(route.description),
                     ],
                   ),
                 ),
@@ -87,7 +109,8 @@ class RouteSheet extends StatelessWidget {
     );
   }
 
-  Widget imageCard() {
+  Widget _imageCard(String? imagePath, String label) {
+    final isNetwork = imagePath != null && imagePath.startsWith('http');
     return Container(
       margin: const EdgeInsets.only(right: 10),
       width: 150,
@@ -95,6 +118,71 @@ class RouteSheet extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: Colors.grey.shade300,
       ),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: imagePath == null
+                  ? _errorImage()
+                  : isNetwork
+                  ? Image.network(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (c, e, s) => _errorImage(),
+                      loadingBuilder: (c, child, progress) {
+                        if (progress == null) return child;
+                        return Center(
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              value: progress.expectedTotalBytes != null
+                                  ? progress.cumulativeBytesLoaded /
+                                        progress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (c, e, s) => _errorImage(),
+                    ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.45),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(12),
+                ),
+              ),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  Widget _errorImage() => const Center(
+    child: Icon(Icons.broken_image, color: Colors.grey, size: 32),
+  );
 }
