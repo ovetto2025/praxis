@@ -52,5 +52,4 @@ flutter {
 }
 
 dependencies {
-    implementation(project(":unityLibrary"))
 }
