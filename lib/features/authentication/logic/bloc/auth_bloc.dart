@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:praxis/data/repository/auth_repository.dart';
+import 'package:praxis/features/authentication/data/auth_repository.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
