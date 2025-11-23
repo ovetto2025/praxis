@@ -9,16 +9,19 @@ class CarouselDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(color: colors.primary, width: 2),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        text,
-        style: AppTypography.body.copyWith(fontSize: 14, height: 1.45),
+    return Padding(
+      padding: EdgeInsets.all(12),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(color: colors.primary, width: 2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          text,
+          style: AppTypography.body.copyWith(fontSize: 14, height: 1.45),
+        ),
       ),
     );
     ;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:praxis/core/fonts/app_typography.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 import 'package:praxis/features/carousel/data/carousel_data.dart';
@@ -79,7 +80,7 @@ class CarouselPathState extends State<CarouselPath> {
             MainRedButton(
               label: "Conferma",
               onPressed: () {
-                //TODO
+                context.push('/home');
               },
             ),
           ],

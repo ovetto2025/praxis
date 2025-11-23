@@ -19,7 +19,9 @@ class CarouselLocation extends StatelessWidget {
       itemCount: location.length,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            //TODO: add so that it can send to a place page
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
