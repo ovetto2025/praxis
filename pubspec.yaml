@@ -2,7 +2,7 @@ name: praxis
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -37,13 +37,12 @@ dependencies:
   google_fonts: ^6.3.2
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
-
+  shared_preferences: ^2.2.2
   bloc: ^9.1.0
   equatable: ^2.0.7
   flutter_bloc: ^9.1.0
   go_router: ^17.0.0
   carousel_slider: 5.1.1
-
 
 dev_dependencies:
   flutter_test:
@@ -61,11 +60,11 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   assets:
-    - lib/core/assets/images/
+    - assets/images/places/piazza_ottinetti/p_o_01.jpg
+    - assets/images/places/piazza_ottinetti/p_o_02.jpg
+    - assets/images/onboarding/olivetti.png
