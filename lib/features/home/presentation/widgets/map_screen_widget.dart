@@ -85,7 +85,6 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
       builder: (context, mapState) {
         return Stack(
           children: [
-            /// 🌍 MAPPA
             GoogleMap(
               initialCameraPosition: const CameraPosition(
                 target: LatLng(45.4665, 7.8756),
@@ -97,7 +96,6 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
               onMapCreated: (controller) => _controller = controller,
             ),
 
-            /// 🔎 SEARCH BAR
             Positioned(
               top: 0,
               left: 16,
