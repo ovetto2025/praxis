@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:praxis/features/places/data/places_mock.dart';
 import 'package:praxis/features/places/models/place_model.dart';
+import 'package:praxis/features/home/presentation/widgets/place_sheet.dart';
+import 'package:praxis/features/home/presentation/widgets/route_sheet.dart';
 
 import '../bloc/map/map_bloc.dart';
 import '../bloc/map/map_event.dart';
 import '../bloc/map/map_state.dart';
 
 class MapScreenWidget extends StatefulWidget {
+  static const String routeName = '/map';
   const MapScreenWidget({super.key});
 
   @override
@@ -22,6 +25,8 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
   final FocusNode _searchFocus = FocusNode();
   List<PlaceModel> _filtered = [];
   bool _showResults = false;
+  bool _showPlaceSheet = false;
+  bool _showRouteSheet = false;
 
   @override
   void initState() {
@@ -87,6 +92,10 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
           onTap: () {
             if (_showResults) setState(() => _showResults = false);
             _searchFocus.unfocus();
+            setState(() {
+              _showPlaceSheet = false;
+              _showRouteSheet = false;
+            });
           },
           child: Stack(
             children: [
@@ -197,6 +206,24 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
                     ],
                   ),
                 ),
+              ),
+
+              /// Sheet animati in basso
+              AnimatedPositioned(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                left: 0,
+                right: 0,
+                bottom: _showPlaceSheet ? 0 : -260,
+                child: PlaceSheet(),
+              ),
+              AnimatedPositioned(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                left: 0,
+                right: 0,
+                bottom: _showRouteSheet ? 0 : -260,
+                child: RouteSheet(),
               ),
             ],
           ),

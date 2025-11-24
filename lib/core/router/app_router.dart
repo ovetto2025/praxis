@@ -9,12 +9,12 @@ import 'package:praxis/features/onboarding/presentation/screens/onboarding_scree
 // AUTH
 import 'package:praxis/features/authentication/logic/bloc/auth_bloc.dart';
 import 'package:praxis/features/authentication/logic/bloc/auth_state.dart';
-import 'package:praxis/features/authentication/presentation/screens/home_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/login_screen.dart';
 import 'package:praxis/features/authentication/presentation/screens/signup_screen.dart';
 
 // PLACES
 import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
+import 'package:praxis/features/home/presentation/screens/map_screen.dart';
 
 import '../../features/audio/presentation/screens/audio_screen.dart';
 import '../../features/carousel/presentation/screens/carousel_path.dart';
@@ -35,16 +35,37 @@ class AppRouter {
         redirect: (context, state) {
           final authState = context.read<AuthBloc>().state;
           final isAuth = authState.status == AuthStatus.authenticated;
+          final hasSeenOnboarding = authState.hasSeenOnboarding;
+          final isCarouselDone = authState.isCarouselDone;
 
-          final loggingIn = state.matchedLocation == LoginScreen.routeName;
-          final signingUp = state.matchedLocation == SignupScreen.routeName;
+          // Onboarding
+          if (!hasSeenOnboarding &&
+              state.matchedLocation != OnboardingScreen.routeName) {
+            return OnboardingScreen.routeName;
+          }
 
-          if (!isAuth && (state.matchedLocation == HomeScreen.routeName)) {
+          // Authentication
+          if (hasSeenOnboarding &&
+              !isAuth &&
+              state.matchedLocation != LoginScreen.routeName &&
+              state.matchedLocation != SignupScreen.routeName) {
             return LoginScreen.routeName;
           }
 
-          if (isAuth && (loggingIn || signingUp)) {
-            return HomeScreen.routeName;
+          // Carousel
+          if (hasSeenOnboarding &&
+              isAuth &&
+              !isCarouselDone &&
+              state.matchedLocation != CarouselPath.routeName) {
+            return CarouselPath.routeName;
+          }
+
+          // MapScreen
+          if (hasSeenOnboarding &&
+              isAuth &&
+              isCarouselDone &&
+              state.matchedLocation != MapScreen.routeName) {
+            return MapScreen.routeName;
           }
 
           return null;
@@ -64,8 +85,8 @@ class AppRouter {
             builder: (context, state) => const SignupScreen(),
           ),
           GoRoute(
-            path: HomeScreen.routeName,
-            builder: (context, state) => const HomeScreen(),
+            path: MapScreen.routeName,
+            builder: (context, state) => const MapScreen(),
           ),
           GoRoute(
             path: CarouselPath.routeName,
@@ -90,11 +111,9 @@ class AppRouter {
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
-    notifyListener = () => notifyListeners();
-    _subscription = stream.asBroadcastStream().listen((_) => notifyListener());
+    _subscription = stream.asBroadcastStream().listen((_) => notifyListeners());
   }
 
-  late final VoidCallback notifyListener;
   late final StreamSubscription<dynamic> _subscription;
 
   @override

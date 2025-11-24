@@ -11,8 +11,9 @@ import '../widgets/map_screen_widget.dart';
 import '../widgets/place_sheet.dart';
 import '../widgets/route_sheet.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class MapScreen extends StatelessWidget {
+  static const String routeName = '/map';
+  const MapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

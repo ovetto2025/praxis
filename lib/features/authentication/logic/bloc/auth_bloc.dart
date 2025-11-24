@@ -16,6 +16,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignUpRequested>(_onSignUpRequested);
     on<AuthSignInRequested>(_onSignInRequested);
     on<AuthSignOutRequested>(_onSignOutRequested);
+    on<AuthOnboardingCompleted>(_onOnboardingCompleted);
+    on<AuthCarouselCompleted>(_onCarouselCompleted);
 
     _userSub = authRepository.user.listen((user) {
       add(AuthUserChanged(user?.uid));
@@ -92,6 +94,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     await authRepository.signOut();
+  }
+
+  Future<void> _onOnboardingCompleted(
+    AuthOnboardingCompleted event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(hasSeenOnboarding: true));
+  }
+
+  Future<void> _onCarouselCompleted(
+    AuthCarouselCompleted event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isCarouselDone: true));
   }
 
   @override

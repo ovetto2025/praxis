@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praxis/core/fonts/app_typography.dart';
 import 'package:praxis/core/theme/app_theme.dart';
+import 'package:praxis/features/authentication/logic/bloc/auth_bloc.dart';
+import 'package:praxis/features/authentication/logic/bloc/auth_event.dart';
 import 'package:praxis/features/carousel/data/carousel_data.dart';
 import 'package:praxis/features/carousel/models/carousel_model.dart';
 import 'package:praxis/features/carousel/presentation/widget/carousel_description.dart';
@@ -80,7 +82,7 @@ class CarouselPathState extends State<CarouselPath> {
             MainRedButton(
               label: "Conferma",
               onPressed: () {
-                context.push('/home');
+                context.read<AuthBloc>().add(AuthCarouselCompleted());
               },
             ),
           ],

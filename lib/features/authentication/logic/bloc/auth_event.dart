@@ -36,3 +36,7 @@ class AuthSignInRequested extends AuthEvent {
 }
 
 class AuthSignOutRequested extends AuthEvent {}
+
+class AuthOnboardingCompleted extends AuthEvent {}
+
+class AuthCarouselCompleted extends AuthEvent {}
