@@ -152,7 +152,7 @@ class PlaceSheet extends StatelessWidget {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () {
-                  context.push('/place/${place.id}');
+                  GoRouter.of(context).push('/place/${place.id}');
                 },
                 child: const Text("Info"),
               ),

@@ -5,6 +5,8 @@ import 'package:praxis/features/places/data/places_mock.dart';
 import 'package:praxis/features/places/models/place_model.dart';
 import 'package:praxis/features/home/presentation/widgets/place_sheet.dart';
 import 'package:praxis/features/home/presentation/widgets/route_sheet.dart';
+import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/map/map_bloc.dart';
 import '../bloc/map/map_event.dart';

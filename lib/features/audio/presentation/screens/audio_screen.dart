@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:praxis/features/places/data/places_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -225,7 +226,13 @@ class _AudioScreenState extends State<AudioScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Audio Percorso')),
+      appBar: AppBar(
+        title: const Text('Audio Percorso'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

@@ -16,8 +16,11 @@ import 'package:praxis/features/authentication/presentation/screens/signup_scree
 import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
 import 'package:praxis/features/home/presentation/screens/map_screen.dart';
 
-import '../../features/audio/presentation/screens/audio_screen.dart';
-import '../../features/carousel/presentation/screens/carousel_path.dart';
+// AUDIO
+import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
+
+// CAROUSEL
+import 'package:praxis/features/carousel/presentation/screens/carousel_path.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -38,17 +41,18 @@ class AppRouter {
           final hasSeenOnboarding = authState.hasSeenOnboarding;
           final isCarouselDone = authState.isCarouselDone;
 
+          final location = state.matchedLocation;
+
           // Onboarding
-          if (!hasSeenOnboarding &&
-              state.matchedLocation != OnboardingScreen.routeName) {
+          if (!hasSeenOnboarding && location != OnboardingScreen.routeName) {
             return OnboardingScreen.routeName;
           }
 
           // Authentication
           if (hasSeenOnboarding &&
               !isAuth &&
-              state.matchedLocation != LoginScreen.routeName &&
-              state.matchedLocation != SignupScreen.routeName) {
+              location != LoginScreen.routeName &&
+              location != SignupScreen.routeName) {
             return LoginScreen.routeName;
           }
 
@@ -56,15 +60,17 @@ class AppRouter {
           if (hasSeenOnboarding &&
               isAuth &&
               !isCarouselDone &&
-              state.matchedLocation != CarouselPath.routeName) {
+              location != CarouselPath.routeName) {
             return CarouselPath.routeName;
           }
 
-          // MapScreen
+          // MapScreen (ma permetti audio e place detail)
           if (hasSeenOnboarding &&
               isAuth &&
               isCarouselDone &&
-              state.matchedLocation != MapScreen.routeName) {
+              location != MapScreen.routeName &&
+              !location.startsWith('/audio') &&
+              !location.startsWith('/place/')) {
             return MapScreen.routeName;
           }
 
@@ -95,7 +101,7 @@ class AppRouter {
 
           // 🆕 ROUTE DETTAGLIO LUOGO
           GoRoute(
-            path: PlaceDetailScreen.routeName,
+            path: '/place/:id',
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return PlaceDetailScreen(placeId: id);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
 
 import '../bloc/ui/ui_bloc.dart';
 import '../bloc/ui/ui_event.dart';
@@ -28,7 +29,7 @@ class MapScreen extends StatelessWidget {
             /// 🌍 MAPPA E CONTROLLI BASE
             const MapScreenWidget(),
 
-            /// 🔘 Pulsanti Percorsi / Luoghi
+            /// 🔘 Pulsanti Percorsi / Luoghi / Audio
             Positioned(
               top: 110,
               left: 20,
@@ -38,53 +39,70 @@ class MapScreen extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: uiState.showRoutes
-                              ? Theme.of(context).colorScheme.secondary
-                              : Colors.white,
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: uiState.showRoutes
+                                ? Theme.of(context).colorScheme.secondary
+                                : Colors.white,
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          context.read<UiBloc>().add(ShowRoutesSheet());
-                        },
-                        child: Text(
-                          "Percorsi",
-                          style: TextStyle(
-                            color: uiState.showRoutes
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: uiState.showPlaces
-                              ? Theme.of(context).colorScheme.secondary
-                              : Colors.white,
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        onPressed: () {
-                          context.read<UiBloc>().add(ShowPlacesSheet());
-                        },
-                        child: Text(
-                          "Elenco luoghi",
-                          style: TextStyle(
-                            color: uiState.showPlaces
-                                ? Colors.white
-                                : Colors.black,
+                          onPressed: () {
+                            context.read<UiBloc>().add(ShowRoutesSheet());
+                          },
+                          child: Text(
+                            "Percorsi",
+                            style: TextStyle(
+                              color: uiState.showRoutes
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                      FloatingActionButton(
-                        heroTag: "audioBtn",
-                        mini: true,
-                        onPressed: () => context.push('/audio'),
-                        child: const Icon(Icons.play_arrow),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: uiState.showPlaces
+                                ? Theme.of(context).colorScheme.secondary
+                                : Colors.white,
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          onPressed: () {
+                            context.read<UiBloc>().add(ShowPlacesSheet());
+                          },
+                          child: Text(
+                            "Elenco luoghi",
+                            style: TextStyle(
+                              color: uiState.showPlaces
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          onPressed: () {
+                            GoRouter.of(context).push(AudioScreen.routeName);
+                          },
+                          child: Icon(
+                            Icons.audiotrack,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
                       ),
                     ],
                   );

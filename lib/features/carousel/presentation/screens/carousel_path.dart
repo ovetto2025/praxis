@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:praxis/core/fonts/app_typography.dart';
 import 'package:praxis/core/theme/app_theme.dart';
 import 'package:praxis/features/authentication/logic/bloc/auth_bloc.dart';
@@ -83,6 +84,7 @@ class CarouselPathState extends State<CarouselPath> {
               label: "Conferma",
               onPressed: () {
                 context.read<AuthBloc>().add(AuthCarouselCompleted());
+                GoRouter.of(context).go('/map');
               },
             ),
           ],
