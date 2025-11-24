@@ -42,66 +42,100 @@ class PlaceSheet extends StatelessWidget {
         minChildSize: 0.15,
         maxChildSize: 0.85,
         builder: (BuildContext context, ScrollController scrollController) {
-          final mapState = context.watch<MapBloc>().state;
-          // centro di riferimento per distanza: cameraTarget se presente, altrimenti primo luogo
-          final reference = mapState.cameraTarget != null
-              ? PlaceModel(
-                  id: 'ref',
-                  title: 'ref',
-                  description: '',
-                  images: const [],
-                  latitude: mapState.cameraTarget!.latitude,
-                  longitude: mapState.cameraTarget!.longitude,
-                )
-              : placesMock.first;
+          try {
+            final mapState = context.watch<MapBloc>().state;
 
-          // calcoliamo distanze
-          final List<(PlaceModel place, double meters)> withDistances = [
-            for (final p in placesMock)
-              if (p.id != reference.id)
-                (
-                  p,
-                  _distanceMeters(
-                    reference.latitude,
-                    reference.longitude,
-                    p.latitude,
-                    p.longitude,
-                  ),
+            // Verifico che placesMock non sia vuoto
+            if (placesMock.isEmpty) {
+              return Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  color: Color(0xFFF6F4FB),
                 ),
-          ];
-          // ordina per distanza crescente
-          withDistances.sort((a, b) => a.$2.compareTo(b.$2));
+                child: const Center(child: Text('Nessun luogo disponibile')),
+              );
+            }
 
-          return Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-              color: Color(0xFFF6F4FB),
-            ),
-            child: ListView(
-              controller: scrollController,
-              padding: const EdgeInsets.all(20),
-              children: [
-                Center(
-                  child: Container(
-                    width: 60,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(3),
+            // centro di riferimento per distanza
+            final reference = mapState.cameraTarget != null
+                ? PlaceModel(
+                    id: 'ref',
+                    title: 'ref',
+                    description: '',
+                    images: const [],
+                    latitude: mapState.cameraTarget!.latitude,
+                    longitude: mapState.cameraTarget!.longitude,
+                  )
+                : placesMock.first;
+
+            // calcoliamo distanze
+            final List<(PlaceModel place, double meters)> withDistances = [
+              for (final p in placesMock)
+                if (p.id != reference.id)
+                  (
+                    p,
+                    _distanceMeters(
+                      reference.latitude,
+                      reference.longitude,
+                      p.latitude,
+                      p.longitude,
                     ),
                   ),
+            ];
+
+            // ordina per distanza crescente
+            withDistances.sort((a, b) => a.$2.compareTo(b.$2));
+
+            return Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                color: Color(0xFFF6F4FB),
+              ),
+              child: ListView(
+                controller: scrollController,
+                padding: const EdgeInsets.all(20),
+                children: [
+                  Center(
+                    child: Container(
+                      width: 60,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Luoghi Vicini",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (withDistances.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('Nessun luogo trovato'),
+                    )
+                  else
+                    for (final tuple in withDistances.take(5))
+                      _placeCard(context, tuple.$1, tuple.$2),
+                ],
+              ),
+            );
+          } catch (e) {
+            return Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                color: Color(0xFFF6F4FB),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text('Errore: ${e.toString()}'),
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Luoghi Vicini",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                for (final tuple in withDistances.take(5))
-                  _placeCard(context, tuple.$1, tuple.$2),
-              ],
-            ),
-          );
+              ),
+            );
+          }
         },
       ),
     );

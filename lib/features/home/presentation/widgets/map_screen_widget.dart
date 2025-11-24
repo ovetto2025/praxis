@@ -3,10 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:praxis/features/places/data/places_mock.dart';
 import 'package:praxis/features/places/models/place_model.dart';
-import 'package:praxis/features/home/presentation/widgets/place_sheet.dart';
-import 'package:praxis/features/home/presentation/widgets/route_sheet.dart';
-import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
-import 'package:go_router/go_router.dart';
 
 import '../bloc/map/map_bloc.dart';
 import '../bloc/map/map_event.dart';
@@ -27,8 +23,6 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
   final FocusNode _searchFocus = FocusNode();
   List<PlaceModel> _filtered = [];
   bool _showResults = false;
-  bool _showPlaceSheet = false;
-  bool _showRouteSheet = false;
 
   @override
   void initState() {
@@ -89,146 +83,120 @@ class _MapScreenWidgetState extends State<MapScreenWidget> {
     return BlocConsumer<MapBloc, MapState>(
       listener: (context, mapState) => _maybeMoveCamera(mapState),
       builder: (context, mapState) {
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            if (_showResults) setState(() => _showResults = false);
-            _searchFocus.unfocus();
-            setState(() {
-              _showPlaceSheet = false;
-              _showRouteSheet = false;
-            });
-          },
-          child: Stack(
-            children: [
-              /// 🌍 MAPPA
-              GoogleMap(
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(45.4665, 7.8756),
-                  zoom: 14,
-                ),
-                markers: mapState.markers,
-                myLocationEnabled: true,
-                zoomControlsEnabled: false,
-                onMapCreated: (controller) => _controller = controller,
+        return Stack(
+          children: [
+            /// 🌍 MAPPA
+            GoogleMap(
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(45.4665, 7.8756),
+                zoom: 14,
               ),
+              markers: mapState.markers,
+              myLocationEnabled: true,
+              zoomControlsEnabled: false,
+              onMapCreated: (controller) => _controller = controller,
+            ),
 
-              /// 🔎 SEARCH BAR
-              Positioned(
-                top: 0,
-                left: 16,
-                right: 16,
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      Material(
-                        elevation: 4,
-                        borderRadius: BorderRadius.circular(14),
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocus,
-                          decoration: InputDecoration(
-                            hintText: 'Cerca luogo... ',
-                            prefixIcon: const Icon(Icons.search),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2,
-                              ),
-                            ),
-                            suffixIcon: _searchController.text.isNotEmpty
-                                ? IconButton(
-                                    icon: const Icon(Icons.close),
-                                    onPressed: () {
-                                      _searchController.clear();
-                                      setState(() {
-                                        _filtered = [];
-                                        _showResults = false;
-                                      });
-                                    },
-                                  )
-                                : null,
+            /// 🔎 SEARCH BAR
+            Positioned(
+              top: 0,
+              left: 16,
+              right: 16,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Material(
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(14),
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _searchFocus,
+                        decoration: InputDecoration(
+                          hintText: 'Cerca luogo... ',
+                          prefixIcon: const Icon(Icons.search),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
                           ),
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (_) {
-                            if (_filtered.length == 1) {
-                              _selectPlace(_filtered.first);
-                            }
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2,
+                            ),
+                          ),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.close),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() {
+                                      _filtered = [];
+                                      _showResults = false;
+                                    });
+                                  },
+                                )
+                              : null,
+                        ),
+                        textInputAction: TextInputAction.search,
+                        onSubmitted: (_) {
+                          if (_filtered.length == 1) {
+                            _selectPlace(_filtered.first);
+                          }
+                        },
+                        onTap: () {
+                          setState(() => _showResults = true);
+                        },
+                      ),
+                    ),
+                    if (_showResults)
+                      Container(
+                        margin: const EdgeInsets.only(top: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        constraints: const BoxConstraints(maxHeight: 220),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _filtered.length,
+                          itemBuilder: (context, index) {
+                            final place = _filtered[index];
+                            return ListTile(
+                              title: Text(place.title),
+                              subtitle: Text(
+                                '${place.latitude.toStringAsFixed(4)}, ${place.longitude.toStringAsFixed(4)}',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                              leading: Icon(
+                                Icons.place,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              onTap: () => _selectPlace(place),
+                            );
                           },
                         ),
                       ),
-                      if (_showResults)
-                        Container(
-                          margin: const EdgeInsets.only(top: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          constraints: const BoxConstraints(maxHeight: 220),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: _filtered.length,
-                            itemBuilder: (context, index) {
-                              final place = _filtered[index];
-                              return ListTile(
-                                title: Text(place.title),
-                                subtitle: Text(
-                                  '${place.latitude.toStringAsFixed(4)}, ${place.longitude.toStringAsFixed(4)}',
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                                leading: Icon(
-                                  Icons.place,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                onTap: () => _selectPlace(place),
-                              );
-                            },
-                          ),
-                        ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
-
-              /// Sheet animati in basso
-              AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-                left: 0,
-                right: 0,
-                bottom: _showPlaceSheet ? 0 : -260,
-                child: PlaceSheet(),
-              ),
-              AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-                left: 0,
-                right: 0,
-                bottom: _showRouteSheet ? 0 : -260,
-                child: RouteSheet(),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

@@ -113,9 +113,17 @@ class MapScreen extends StatelessWidget {
             /// 📄 BOTTOM SHEETS
             BlocBuilder<UiBloc, UiState>(
               builder: (context, uiState) {
-                if (uiState.showPlaces) return const PlaceSheet();
-                if (uiState.showRoutes) return const RouteSheet();
-                return const SizedBox.shrink();
+                if (!uiState.showPlaces && !uiState.showRoutes) {
+                  return const SizedBox.shrink();
+                }
+                return Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: uiState.showPlaces
+                      ? const PlaceSheet()
+                      : const RouteSheet(),
+                );
               },
             ),
           ],
