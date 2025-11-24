@@ -16,13 +16,8 @@ import 'package:praxis/features/authentication/presentation/screens/signup_scree
 // PLACES
 import 'package:praxis/features/places/presentation/screens/place_detail_screen.dart';
 
-// HOME
-import 'package:praxis/features/home/presentation/bloc/map/map_bloc.dart';
-import 'package:praxis/features/home/presentation/bloc/map/map_event.dart';
-import 'package:praxis/features/home/presentation/screens/explore_screen.dart';
-
-// AUDIO
-import 'package:praxis/features/audio/presentation/screens/audio_screen.dart';
+import '../../features/audio/presentation/screens/audio_screen.dart';
+import '../../features/carousel/presentation/screens/carousel_path.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -73,18 +68,8 @@ class AppRouter {
             builder: (context, state) => const HomeScreen(),
           ),
           GoRoute(
-            path: ExploreScreen.routeName,
-            builder: (context, state) {
-              final placeId = state.uri.queryParameters['placeId'];
-              if (placeId != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (context.mounted) {
-                    context.read<MapBloc>().add(FocusOnPlace(placeId));
-                  }
-                });
-              }
-              return const ExploreScreen();
-            },
+            path: CarouselPath.routeName,
+            builder: (context, state) => const CarouselPath(),
           ),
 
           // 🆕 ROUTE DETTAGLIO LUOGO
